@@ -47,6 +47,13 @@ export class CvsService {
     // Clean the response - remove markdown code blocks if present
     let cleanedJson = cvJsonString.trim();
 
+    // Remove any introductory text before the JSON (e.g., "Here's the...")
+    // Find the first { or [ character which indicates the start of JSON
+    const jsonStartIndex = cleanedJson.search(/[{[]/);
+    if (jsonStartIndex > 0) {
+      cleanedJson = cleanedJson.substring(jsonStartIndex);
+    }
+
     // Remove ```json and ``` markers if present
     if (cleanedJson.startsWith('```json')) {
       cleanedJson = cleanedJson
@@ -56,8 +63,22 @@ export class CvsService {
       cleanedJson = cleanedJson.replace(/^```\s*/, '').replace(/\s*```$/, '');
     }
 
+    // Remove any trailing text after the JSON
+    const jsonEndIndex = cleanedJson.lastIndexOf('}');
+    const arrayEndIndex = cleanedJson.lastIndexOf(']');
+    const lastIndex = Math.max(jsonEndIndex, arrayEndIndex);
+    if (lastIndex > 0 && lastIndex < cleanedJson.length - 1) {
+      cleanedJson = cleanedJson.substring(0, lastIndex + 1);
+    }
+
     // Parse the CV data
-    const cvData = JSON.parse(cleanedJson.trim());
+    let cvData;
+    try {
+      cvData = JSON.parse(cleanedJson.trim());
+    } catch (error) {
+      console.error('Failed to parse JSON:', cleanedJson);
+      throw new Error(`Failed to parse CV data: ${error.message}`);
+    }
 
     // Generate PDF
     const pdfBuffer = await PdfGenerator.generatePdf(cvData);
@@ -140,6 +161,26 @@ export class CvsService {
     }
 
     return fs.readFileSync(fullPath);
+  }
+
+  async regeneratePdf(id: number): Promise<Buffer | null> {
+    // Get the CV record with cvData
+    const cv = await this.prisma.cVs.findUnique({
+      where: { id },
+    });
+
+    if (!cv?.cvData) {
+      throw new Error('CV not found or no CV data available');
+    }
+
+    // Regenerate PDF from existing cvData
+    const pdfBuffer = await PdfGenerator.generatePdf(cv.cvData);
+
+    // Optionally update the PDF file in uploads directory
+    const fullPath = path.join(process.cwd(), cv.pdfPath);
+    fs.writeFileSync(fullPath, pdfBuffer);
+
+    return pdfBuffer;
   }
 
   async remove(id: number) {

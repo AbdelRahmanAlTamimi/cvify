@@ -48,6 +48,28 @@ export class CvsController {
     return this.cvsService.findByUser(+userId);
   }
 
+  @Get(':id/regenerate')
+  async regeneratePdf(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const pdfBuffer = await this.cvsService.regeneratePdf(+id);
+
+      if (!pdfBuffer) {
+        res.status(500).send('Failed to regenerate PDF');
+        return;
+      }
+
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'inline; filename=cv.pdf',
+        'Content-Length': pdfBuffer.length,
+      });
+
+      res.send(pdfBuffer);
+    } catch (error) {
+      res.status(404).send(error.message);
+    }
+  }
+
   @Get(':id/download')
   async download(@Param('id') id: string, @Res() res: Response) {
     const pdfBuffer = await this.cvsService.getPdfBuffer(+id);
