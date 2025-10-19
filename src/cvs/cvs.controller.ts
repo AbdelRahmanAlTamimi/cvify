@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { CvsService } from './cvs.service';
 import { GenerateCvDto } from './dto/generate-cv.dto';
@@ -23,5 +31,43 @@ export class CvsController {
     });
 
     res.send(pdfBuffer);
+  }
+
+  @Get()
+  async findAll() {
+    return this.cvsService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.cvsService.findOne(+id);
+  }
+
+  @Get('user/:userId')
+  async findByUser(@Param('userId') userId: string) {
+    return this.cvsService.findByUser(+userId);
+  }
+
+  @Get(':id/download')
+  async download(@Param('id') id: string, @Res() res: Response) {
+    const pdfBuffer = await this.cvsService.getPdfBuffer(+id);
+
+    if (!pdfBuffer) {
+      res.status(404).send('CV not found');
+      return;
+    }
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename=cv.pdf',
+      'Content-Length': pdfBuffer.length,
+    });
+
+    res.send(pdfBuffer);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.cvsService.remove(+id);
   }
 }

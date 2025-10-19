@@ -22,6 +22,18 @@ model Users {
   projects     Json[]
   activities   Json[]
   volunteering Json[]
+  cvs          CVs[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model CVs {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  user           Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobDescription String   @db.Text
+  pdfPath        String
+  cvData         Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
