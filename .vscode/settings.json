@@ -1,6 +1,10 @@
 {
   "postman.settings.dotenv-detection-notification-visibility": false,
 
+  // Disable Jest extension for this workspace
+  "jest.enable": false,
+  "jest.runMode": "on-demand",
+
   // Formatting settings - ensures consistent code formatting across the team
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",

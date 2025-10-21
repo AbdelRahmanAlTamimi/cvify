@@ -14,17 +14,17 @@ export class GroqService {
     });
   }
 
-  async getCvAsJson(jobDescription: string, userProfile: string) {
-    const prompt = this.prompt(jobDescription, userProfile);
+  async getCvAsJson(jobDescription: string, profileProfile: string) {
+    const prompt = this.prompt(jobDescription, profileProfile);
     return this.chat(prompt);
   }
 
-  private prompt(jobDescription: string, userProfile: string) {
+  private prompt(jobDescription: string, profile: string) {
     const promptPath = path.join(__dirname, 'prompt.md');
     const template = fs.readFileSync(promptPath, 'utf-8');
     return template
       .replace('{{jobDescription}}', jobDescription)
-      .replace('{{userProfile}}', userProfile);
+      .replace('{{profile}}', profile);
   }
 
   async chat(prompt: string) {

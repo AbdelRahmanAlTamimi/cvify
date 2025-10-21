@@ -25,19 +25,19 @@ export class CvsService {
   }
 
   async generate(generateCvDto: GenerateCvDto): Promise<Buffer | null> {
-    // Fetch user data
-    const user = await this.prisma.users.findUnique({
-      where: { id: generateCvDto.userId },
+    // Fetch profile data
+    const profile = await this.prisma.profiles.findUnique({
+      where: { id: generateCvDto.profileId },
     });
 
-    if (!user) {
-      throw new Error('User not found');
+    if (!profile) {
+      throw new Error('Profile not found');
     }
 
     // Get optimized CV data from Groq
     const cvJsonString = await this.groq.getCvAsJson(
       generateCvDto.jobDescription,
-      JSON.stringify(user),
+      JSON.stringify(profile),
     );
 
     if (!cvJsonString) {
@@ -85,7 +85,7 @@ export class CvsService {
 
     // Save PDF to uploads directory
     const timestamp = Date.now();
-    const filename = `cv_${generateCvDto.userId}_${timestamp}.pdf`;
+    const filename = `cv_${generateCvDto.profileId}_${timestamp}.pdf`;
     const filePath = path.join(this.uploadsDir, filename);
     const relativePath = path.join('uploads', 'cvs', filename);
 
@@ -94,7 +94,7 @@ export class CvsService {
     // Save CV record to database
     await this.prisma.cVs.create({
       data: {
-        userId: generateCvDto.userId,
+        profileId: generateCvDto.profileId,
         jobDescription: generateCvDto.jobDescription,
         pdfPath: relativePath,
         cvData: cvData,
@@ -107,7 +107,7 @@ export class CvsService {
   findAll() {
     return this.prisma.cVs.findMany({
       include: {
-        user: {
+        profile: {
           select: {
             id: true,
             email: true,
@@ -125,7 +125,7 @@ export class CvsService {
     return this.prisma.cVs.findUnique({
       where: { id },
       include: {
-        user: {
+        profile: {
           select: {
             id: true,
             email: true,
@@ -136,9 +136,9 @@ export class CvsService {
     });
   }
 
-  findByUser(userId: number) {
+  findByProfile(profileId: number) {
     return this.prisma.cVs.findMany({
-      where: { userId },
+      where: { profileId },
       orderBy: {
         createdAt: 'desc',
       },

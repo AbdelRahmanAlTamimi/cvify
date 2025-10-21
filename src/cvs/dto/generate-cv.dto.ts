@@ -1,4 +1,4 @@
 export class GenerateCvDto {
   jobDescription: string;
-  userId: number;
+  profileId: number;
 }

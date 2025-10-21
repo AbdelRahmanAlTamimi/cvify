@@ -21,7 +21,7 @@ Standard TypeScript interfaces that only define specific properties are too stri
 ### Prisma Schema
 
 ```prisma
-model Users {
+model Profiles {
   id      Int      @id @default(autoincrement())
   links   Json[]   // Stored as JSON array
   // ... other fields
@@ -41,7 +41,7 @@ export interface Link {
 ### DTO Usage
 
 ```typescript
-export class UpdateUserDto {
+export class UpdateProfileDto {
   @IsOptional()
   links?: Link[]; // Type mismatch with Prisma's InputJsonValue[]
 }
@@ -65,22 +65,22 @@ export interface Link {
 
 The following interfaces were updated with index signatures:
 
-1. **Link** (`src/users/interfaces/link.interface.ts`)
+1. **Link** (`src/profiles/interfaces/link.interface.ts`)
    - Properties: `type`, `url`
 
-2. **Education** (`src/users/interfaces/education.interface.ts`)
+2. **Education** (`src/profiles/interfaces/education.interface.ts`)
    - Properties: `schoolName`, `degree`, `fieldOfStudy`, `grade`, `startDate`, `endDate`, `description`, `location`, `currentlyStudying`
 
-3. **Experience** (`src/users/interfaces/experience.interface.ts`)
+3. **Experience** (`src/profiles/interfaces/experience.interface.ts`)
    - Properties: `jobTitle`, `companyName`, `employmentType`, `location`, `startDate`, `endDate`, `currentlyWorking`, `description`
 
-4. **Project** (`src/users/interfaces/project.interface.ts`)
+4. **Project** (`src/profiles/interfaces/project.interface.ts`)
    - Properties: `title`, `description`, `technologies`, `links`, `startDate`, `endDate`, `currentlyOngoing`
 
-5. **Activity** (`src/users/interfaces/activity.interface.ts`)
+5. **Activity** (`src/profiles/interfaces/activity.interface.ts`)
    - Properties: `title`, `description`, `role`, `startDate`, `endDate`, `currentlyOngoing`
 
-6. **Volunteering** (`src/users/interfaces/volunteering.interface.ts`)
+6. **Volunteering** (`src/profiles/interfaces/volunteering.interface.ts`)
    - Properties: `organizationName`, `description`, `role`, `location`, `startDate`, `endDate`, `currentlyVolunteering`
 
 ## What the Index Signature Does
@@ -109,6 +109,6 @@ October 18, 2025
 ## Related Files
 
 - Prisma Schema: `prisma/schema.prisma`
-- User Service: `src/users/users.service.ts`
-- Update DTO: `src/users/dto/update-user.dto.ts`
-- All interface files in: `src/users/interfaces/`
+- Profile Service: `src/profiles/profiles.service.ts`
+- Update DTO: `src/profiles/dto/update-profile.dto.ts`
+- All interface files in: `src/profiles/interfaces/`

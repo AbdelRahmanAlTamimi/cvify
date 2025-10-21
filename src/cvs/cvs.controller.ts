@@ -43,9 +43,9 @@ export class CvsController {
     return this.cvsService.findOne(+id);
   }
 
-  @Get('user/:userId')
-  async findByUser(@Param('userId') userId: string) {
-    return this.cvsService.findByUser(+userId);
+  @Get('profile/:profileId')
+  async findByProfile(@Param('profileId') profileId: string) {
+    return this.cvsService.findByProfile(+profileId);
   }
 
   @Get(':id/regenerate')

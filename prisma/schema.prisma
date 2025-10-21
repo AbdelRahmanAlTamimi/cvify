@@ -7,9 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model Profiles {
   id           Int      @id @default(autoincrement())
-  email        String   @unique
+  profileName  String   @unique
+  email        String
   fullName     String?
   title        String?
   phone        String?
@@ -29,8 +30,8 @@ model Users {
 
 model CVs {
   id             Int      @id @default(autoincrement())
-  userId         Int
-  user           Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId      Int
+  profile        Profiles @relation(fields: [profileId], references: [id], onDelete: Cascade)
   jobDescription String   @db.Text
   pdfPath        String
   cvData         Json

@@ -4,16 +4,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CvsModule } from './cvs/cvs.module';
 import { GroqModule } from './groq/groq.module';
-import { IpAddressExtractorMiddleware } from './middleware/ip-middleware.middleware';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { PrismaModule } from './prisma/prisma.module';
-import { UsersModule } from './users/users.module';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    UsersModule,
+    ProfilesModule,
     GroqModule,
     CvsModule,
   ],
@@ -22,7 +21,6 @@ import { UsersModule } from './users/users.module';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IpAddressExtractorMiddleware).forRoutes('*');
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

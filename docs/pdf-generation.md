@@ -2,7 +2,7 @@
 
 ## Overview
 
-Implemented CV generation as PDF using pdfmake library. When a user requests `/cvs/generate`, the system generates an optimized CV based on a job description and returns it as a downloadable PDF file.
+Implemented CV generation as PDF using pdfmake library. When a profile requests `/cvs/generate`, the system generates an optimized CV based on a job description and returns it as a downloadable PDF file.
 
 ## Implementation Details
 
@@ -17,8 +17,8 @@ pnpm add -D @types/pdfmake
 
 #### Flow
 
-1. **Request** → POST `/cvs/generate` with `{ userId, jobDescription }`
-2. **Fetch User Data** → Get user profile from database (Prisma)
+1. **Request** → POST `/cvs/generate` with `{ profileId, jobDescription }`
+2. **Fetch Profile Data** → Get profile profile from database (Prisma)
 3. **Generate Optimized CV** → Use Groq AI to analyze job description and optimize CV
 4. **Create PDF** → Use pdfmake to generate formatted PDF
 5. **Response** → Return PDF file as download
@@ -54,7 +54,7 @@ pnpm add -D @types/pdfmake
 #### 6. `src/cvs/cvs.service.ts`
 
 - Complete rewrite to handle PDF generation
-- Fetches user data from database
+- Fetches profile data from database
 - Calls Groq service to get optimized CV JSON
 - Generates formatted PDF with multiple sections
 
@@ -119,7 +119,7 @@ styles: {
 
 ### Error Handling
 
-- Returns 500 error if user not found
+- Returns 500 error if profile not found
 - Returns 500 error if Groq fails to generate CV data
 - Returns 500 error if PDF generation fails
 - All errors are properly logged
@@ -136,7 +136,7 @@ POST /cvs/generate
 
 ```json
 {
-  "userId": 1,
+  "profileId": 1,
   "jobDescription": "We are looking for a Senior Full-Stack Developer with experience in React, Node.js, and PostgreSQL..."
 }
 ```
@@ -153,7 +153,7 @@ POST /cvs/generate
 curl -X POST http://localhost:3000/cvs/generate \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": 1,
+    "profileId": 1,
     "jobDescription": "Senior Developer position requiring React and Node.js experience"
   }' \
   --output cv.pdf
@@ -168,7 +168,7 @@ curl -X POST http://localhost:3000/cvs/generate \
 
 ```json
 {
-  "userId": 1,
+  "profileId": 1,
   "jobDescription": "Your job description here"
 }
 ```

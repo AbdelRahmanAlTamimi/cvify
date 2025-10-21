@@ -11,8 +11,8 @@ The application now stores generated CVs as PDF files in the `uploads/cvs` direc
 ```prisma
 model CVs {
   id             Int      @id @default(autoincrement())
-  userId         Int
-  user           Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileId         Int
+  profile           Profiles    @relation(fields: [profileId], references: [id], onDelete: Cascade)
   jobDescription String   @db.Text
   pdfPath        String
   cvData         Json
@@ -24,7 +24,7 @@ model CVs {
 **Fields:**
 
 - `id`: Unique identifier for the CV
-- `userId`: Reference to the user who generated the CV
+- `profileId`: Reference to the profile who generated the CV
 - `jobDescription`: The job description used to tailor the CV
 - `pdfPath`: Relative path to the stored PDF file
 - `cvData`: JSON object containing the optimized CV data used to generate the PDF
@@ -41,7 +41,7 @@ Generate a new CV and save it to the database.
 
 ```json
 {
-  "userId": 1,
+  "profileId": 1,
   "jobDescription": "Full Stack Developer position requiring expertise in Node.js, React, and PostgreSQL..."
 }
 ```
@@ -49,12 +49,12 @@ Generate a new CV and save it to the database.
 **Response:**
 
 - Returns the PDF file as a downloadable attachment
-- Saves the PDF to `uploads/cvs/cv_{userId}_{timestamp}.pdf`
+- Saves the PDF to `uploads/cvs/cv_{profileId}_{timestamp}.pdf`
 - Creates a database record with the CV metadata
 
 ### GET `/cvs`
 
-Get all generated CVs with user information.
+Get all generated CVs with profile information.
 
 **Response:**
 
@@ -62,7 +62,7 @@ Get all generated CVs with user information.
 [
   {
     "id": 1,
-    "userId": 1,
+    "profileId": 1,
     "jobDescription": "Full Stack Developer position...",
     "pdfPath": "uploads/cvs/cv_1_1729321234567.pdf",
     "cvData": {
@@ -70,9 +70,9 @@ Get all generated CVs with user information.
     },
     "createdAt": "2025-10-19T05:20:34.567Z",
     "updatedAt": "2025-10-19T05:20:34.567Z",
-    "user": {
+    "profile": {
       "id": 1,
-      "email": "user@example.com",
+      "email": "profile@example.com",
       "fullName": "John Doe"
     }
   }
@@ -88,7 +88,7 @@ Get a specific CV by ID.
 ```json
 {
   "id": 1,
-  "userId": 1,
+  "profileId": 1,
   "jobDescription": "Full Stack Developer position...",
   "pdfPath": "uploads/cvs/cv_1_1729321234567.pdf",
   "cvData": {
@@ -96,17 +96,17 @@ Get a specific CV by ID.
   },
   "createdAt": "2025-10-19T05:20:34.567Z",
   "updatedAt": "2025-10-19T05:20:34.567Z",
-  "user": {
+  "profile": {
     "id": 1,
-    "email": "user@example.com",
+    "email": "profile@example.com",
     "fullName": "John Doe"
   }
 }
 ```
 
-### GET `/cvs/user/:userId`
+### GET `/cvs/profile/:profileId`
 
-Get all CVs for a specific user.
+Get all CVs for a specific profile.
 
 **Response:**
 
@@ -114,7 +114,7 @@ Get all CVs for a specific user.
 [
   {
     "id": 1,
-    "userId": 1,
+    "profileId": 1,
     "jobDescription": "Full Stack Developer position...",
     "pdfPath": "uploads/cvs/cv_1_1729321234567.pdf",
     "cvData": {
@@ -143,7 +143,7 @@ Delete a CV record and its associated PDF file.
 ```json
 {
   "id": 1,
-  "userId": 1,
+  "profileId": 1,
   "jobDescription": "Full Stack Developer position...",
   "pdfPath": "uploads/cvs/cv_1_1729321234567.pdf",
   "cvData": {
@@ -157,14 +157,14 @@ Delete a CV record and its associated PDF file.
 ## File Storage
 
 - **Directory**: `uploads/cvs/`
-- **Naming Convention**: `cv_{userId}_{timestamp}.pdf`
+- **Naming Convention**: `cv_{profileId}_{timestamp}.pdf`
 - **Path Storage**: Relative paths are stored in the database (e.g., `uploads/cvs/cv_1_1729321234567.pdf`)
 
 ## Features
 
 1. **Persistent Storage**: CVs are saved as PDF files and can be downloaded later
-2. **Metadata Tracking**: Job description, user information, and CV data are stored
-3. **History**: Users can view all their previously generated CVs
+2. **Metadata Tracking**: Job description, profile information, and CV data are stored
+3. **History**: Profiles can view all their previously generated CVs
 4. **Cleanup**: Deleting a CV record also removes the associated PDF file
 5. **Automatic Directory Creation**: The uploads directory is created automatically on service initialization
 
@@ -178,6 +178,6 @@ Delete a CV record and its associated PDF file.
 
 ## Error Handling
 
-- User not found: Throws an error if the specified user doesn't exist
+- Profile not found: Throws an error if the specified profile doesn't exist
 - File not found: Returns `null` if the PDF file is missing when trying to download
 - CV not found: Throws an error when trying to delete a non-existent CV

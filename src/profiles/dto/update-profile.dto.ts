@@ -6,7 +6,7 @@ import { Link } from '../interfaces/link.interface';
 import { Project } from '../interfaces/project.interface';
 import { Volunteering } from '../interfaces/volunteering.interface';
 
-export class UpdateUserDto {
+export class UpdateProfileDto {
   @IsOptional()
   @IsString()
   fullName?: string;
