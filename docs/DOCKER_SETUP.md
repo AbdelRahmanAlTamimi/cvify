@@ -18,18 +18,33 @@ cd cvify
 
 ### 2. Create your .env file
 
-```bash
-# Copy the example file
-cp .env.example .env
+**Linux/Mac:**
 
-# Edit .env and add your environment variables (like API keys)
+```bash
+cp .env.example .env
 ```
+
+**Windows (PowerShell):**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+**Windows (Command Prompt):**
+
+```cmd
+copy .env.example .env
+```
+
+Then edit `.env` and add your environment variables (like API keys)
 
 ### 3. Run everything with one command
 
 ```bash
 docker-compose up -d
 ```
+
+**Note:** This command works the same on Windows, Mac, and Linux!
 
 That's it! 🎉
 
@@ -72,7 +87,21 @@ docker-compose up -d --build
 
 ### Access the database directly
 
+**Linux/Mac:**
+
 ```bash
+docker exec -it cvify-postgres psql -U cvify -d cvify_db
+```
+
+**Windows (PowerShell):**
+
+```powershell
+docker exec -it cvify-postgres psql -U cvify -d cvify_db
+```
+
+**Windows (Command Prompt):**
+
+```cmd
 docker exec -it cvify-postgres psql -U cvify -d cvify_db
 ```
 
