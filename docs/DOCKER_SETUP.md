@@ -12,7 +12,7 @@ Simple Docker setup for self-hosting Cvify with PostgreSQL.
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/MohamedRamadanSaudi/cvify.git
 cd cvify
 ```
 

@@ -16,7 +16,7 @@ Built with NestJS, Bun, Prisma, PostgreSQL, and Groq AI.
 ### Step 1: Clone & Setup
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/MohamedRamadanSaudi/cvify.git
 cd cvify
 ```
 
