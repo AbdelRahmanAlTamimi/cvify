@@ -1,6 +1,9 @@
-# Use Bun as base image
+# Use Bun as base image (Debian-based for better compatibility)
 FROM oven/bun:1 AS base
 WORKDIR /app
+
+# Install OpenSSL for Prisma
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies
 FROM base AS install
@@ -20,6 +23,10 @@ RUN bun run build
 
 # Production image
 FROM base AS production
+
+# Install OpenSSL in production stage
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/generated ./generated
