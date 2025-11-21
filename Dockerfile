@@ -31,7 +31,6 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/generated ./generated
 COPY --from=build /app/prisma ./prisma
-COPY --from=build /app/public ./public
 COPY --from=build /app/package.json ./
 
 # Create uploads directory

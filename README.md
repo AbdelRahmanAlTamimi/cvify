@@ -57,17 +57,24 @@ docker compose up -d
 Docker will automatically:
 
 - ✅ Start PostgreSQL database
-- ✅ Build the app with Bun
+- ✅ Build React frontend with Nginx
+- ✅ Build NestJS backend with Bun
 - ✅ Run database migrations
-- ✅ Start the server
+- ✅ Start all services
 
-_First build takes ~2 minutes_
+_First build takes ~3 minutes_
 
 ### Step 3: Open
 
 Go to: **http://localhost:3000**
 
 That's it! 🎉
+
+**What's running:**
+
+- 🌐 Frontend (React) - http://localhost:3000
+- 🔧 Backend API - http://localhost:3000/api
+- 🗄️ PostgreSQL - Internal (port 5432)
 
 ---
 
@@ -103,13 +110,13 @@ docker compose exec postgres psql -U cvify -d cvify_db
 
 ```bash
 # Generate Prisma Client
-docker compose exec app bunx prisma generate
+docker compose exec backend bunx prisma generate
 
 # Create migration
-docker compose exec app bunx prisma migrate dev --name migration_name
+docker compose exec backend bunx prisma migrate dev --name migration_name
 
 # Open Prisma Studio
-docker compose exec app bunx prisma studio
+docker compose exec backend bunx prisma studio
 ```
 
 ### Local Development (Optional)
@@ -132,15 +139,26 @@ powershell -c "irm bun.sh/install.ps1 | iex"
 
 Or visit: https://bun.sh/docs/installation
 
-**Then run:**
+**Backend:**
 
 ```bash
 # Install dependencies
 bun install
 bunx prisma generate
 
+# Start database only
+docker compose up postgres -d
+
 # Run development server
 bun run start:dev
+```
+
+**Frontend:**
+
+```bash
+cd frontend
+npm install
+npm run dev  # Runs on http://localhost:5173
 ```
 
 ---
@@ -193,9 +211,9 @@ docker compose up -d
 
 ## 📚 Tech Stack
 
-- **Runtime**: Bun
-- **Framework**: NestJS
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **AI**: Groq API
+- **Frontend**: React + TypeScript + Vite + Nginx
+- **Backend**: NestJS + Bun
+- **Database**: PostgreSQL + Prisma ORM
+- **AI**: Groq API (LLaMA models)
 - **PDF**: PDFMake
+- **Deployment**: Docker + Docker Compose

@@ -27,6 +27,7 @@ export class ProfilesService {
       select: {
         id: true,
         profileName: true,
+        email: true,
         createdAt: true,
         updatedAt: true,
       },
