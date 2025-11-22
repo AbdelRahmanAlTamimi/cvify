@@ -22,6 +22,8 @@ Cvify is a self-hosted web application that helps you create and manage professi
 ## Tech Stack
 
 - **Backend**: NestJS (Node.js framework)
+- **Frontend**: React + Vite
+- **Styling**: Tailwind CSS + Shadcn UI
 - **Runtime**: Bun (fast JavaScript runtime)
 - **Database**: PostgreSQL
 - **ORM**: Prisma

@@ -48,14 +48,16 @@ docker-compose up -d
 
 That's it! 🎉
 
-The app will be available at: **http://localhost:3000**
+The app will be available at:
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:3000
 
 ## 📝 What This Does
 
 - Builds your NestJS app with Bun
+- Builds your React frontend with Vite
 - Starts a PostgreSQL database
 - Runs Prisma migrations automatically
-- Serves your static files from `/public`
 - Persists database data in a Docker volume
 - Persists uploaded CVs in `./uploads`
 
@@ -119,7 +121,6 @@ The database configuration is already set in `docker-compose.yml` but can be ove
 
 - `postgres_data`: Database files (persistent)
 - `./uploads`: Uploaded CV files (persistent, mapped to host)
-- `./public`: Static files (mapped to host)
 
 ## 🐛 Troubleshooting
 

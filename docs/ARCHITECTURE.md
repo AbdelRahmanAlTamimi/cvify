@@ -13,7 +13,10 @@ cvify/
 │   ├── prisma/            # Database service
 │   └── middleware/        # HTTP logger
 ├── prisma/                # Database schema and migrations
-├── public/                # Frontend files (HTML, CSS, JS)
+├── frontend/              # Frontend source code (React)
+│   ├── src/               # React components and logic
+│   ├── public/            # Static assets
+│   └── index.html         # Entry HTML
 ├── uploads/cvs/          # Generated PDF files
 └── docs/                  # Documentation
 ```
@@ -86,34 +89,45 @@ cvify/
 
 ### Single Page Application (SPA)
 
-**Files:**
+**Tech Stack:**
 
-- `index.html` - Main HTML structure
-- `app.js` - JavaScript logic (view management, API calls)
-- `styles.css` - Styling
+- **Framework**: React (with Vite)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **Routing**: React Router
+- **State/Data Fetching**: TanStack Query (React Query)
 
-**Views:**
+**Structure:**
 
-1. Profiles List
-2. Create Profile
-3. Profile Detail
-4. Edit Profile
-5. Generate CV
-6. History
+- `src/components/` - Reusable UI components
+- `src/pages/` - Page components (views)
+- `src/lib/` - Utilities and API client
+- `src/App.tsx` - Main application component and routing
+
+**Views (Routes):**
+
+1. Dashboard (`/`) - List of profiles
+2. Create Profile (`/profiles/new`)
+3. Profile Detail (`/profiles/:id`) - View and edit profile
+4. Generate CV (`/generate`)
+5. History (`/history`)
 
 **State Management:**
 
-- Simple JavaScript state
-- No framework (vanilla JS)
+- **Server State**: Managed by TanStack Query (caching, invalidation)
+- **Local State**: React `useState` and `useReducer`
+- **Form State**: Controlled components
 
 ## Deployment Architecture
 
 ```
 Docker Compose
     ├── PostgreSQL Container (Port 5432)
-    └── App Container (Port 3000)
-        ├── NestJS Backend
-        └── Static Frontend
+    ├── Backend Container (Port 3000)
+    │   └── NestJS API
+    └── Frontend Container (Port 5173/80)
+        └── React App (Vite)
 ```
 
 ## Security Notes

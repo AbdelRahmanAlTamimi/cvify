@@ -229,11 +229,15 @@ const styles = {
 ### Manual Testing
 
 ```bash
-# Start dev server
+# Start backend
 bun run start:dev
 
-# Use frontend at http://localhost:3000
-# Or use API client (Postman, curl, etc.)
+# Start frontend (in separate terminal)
+cd frontend
+npm run dev
+
+# Use frontend at http://localhost:5173
+# Or use API client (Postman, curl, etc.) at http://localhost:3000
 ```
 
 ### Example API Tests
@@ -303,40 +307,49 @@ bun run lint
 - Write descriptive variable names
 
 ## Frontend Development
-
-Frontend is in `public/` folder:
-
-- `index.html` - Structure
-- `app.js` - Logic
-- `styles.css` - Styling
-
-### Making Changes
-
-1. Edit files in `public/`
-2. Refresh browser (no build needed)
-3. Test functionality
-
-### Adding New View
-
-```javascript
-// In app.js
-
-// 1. Add view to HTML in index.html
-<div id="newView" class="view">
-  <!-- content -->
-</div>
-
-// 2. Register in views object
-const views = {
-  // ... existing views
-  newView: document.getElementById('newView'),
-};
-
-// 3. Create show function
-function showNewView() {
-  showView('newView');
-}
-```
+ 
+ Frontend is located in `frontend/` folder and uses React + Vite.
+ 
+ ### Setup
+ 
+ ```bash
+ cd frontend
+ npm install
+ npm run dev
+ ```
+ 
+ ### Project Structure
+ 
+ - `src/components/` - UI components (buttons, inputs, etc.)
+ - `src/pages/` - Main views (Dashboard, ProfileDetail, etc.)
+ - `src/lib/` - Utilities and API client
+ - `src/App.tsx` - Routing configuration
+ 
+ ### Making Changes
+ 
+ 1. Edit components in `frontend/src/`
+ 2. Changes are hot-reloaded automatically
+ 3. Test functionality in browser
+ 
+ ### Adding New View
+ 
+ 1. Create new page component in `src/pages/NewView.tsx`:
+ 
+ ```tsx
+ const NewView = () => {
+   return <div>New View Content</div>;
+ };
+ export default NewView;
+ ```
+ 
+ 2. Add route in `src/App.tsx`:
+ 
+ ```tsx
+ import NewView from './pages/NewView';
+ 
+ // Inside Routes
+ <Route path="/new-view" element={<NewView />} />
+ ```
 
 ## Common Issues
 

@@ -43,7 +43,8 @@ docker compose up -d
 
 First build takes ~2 minutes. Services will be available at:
 
-- **App**: http://localhost:3000
+- **Frontend**: http://localhost:5173 (or port 80 in prod)
+- **Backend**: http://localhost:3000
 - **Database**: localhost:5432
 
 ## Docker Architecture
@@ -56,16 +57,19 @@ First build takes ~2 minutes. Services will be available at:
    - Password: cvify_password
    - Database: cvify_db
 
-2. **app** - NestJS application
+2. **backend** - NestJS application
    - Port: 3000
    - Depends on postgres
    - Auto-runs migrations on start
+
+3. **frontend** - React application (Vite)
+   - Port: 5173 (Dev) / 80 (Prod)
+   - Depends on backend
 
 ### Volumes
 
 - `postgres_data` - Database persistence
 - `./uploads` - Generated PDF files
-- `./public` - Static frontend files
 
 ## Environment Variables
 
@@ -75,7 +79,7 @@ First build takes ~2 minutes. Services will be available at:
 
 ### Optional
 
-- `PORT` - Application port (default: 3000)
+- `PORT` - Backend port (default: 3000)
 - `NODE_ENV` - Environment (default: production)
 - `DATABASE_URL` - Auto-configured in Docker
 
@@ -88,7 +92,8 @@ First build takes ~2 minutes. Services will be available at:
 docker compose logs -f
 
 # Specific service
-docker compose logs -f app
+docker compose logs -f backend
+docker compose logs -f frontend
 docker compose logs -f postgres
 ```
 
@@ -118,8 +123,8 @@ docker compose down -v
 ### Access Containers
 
 ```bash
-# App container
-docker compose exec app sh
+# Backend container
+docker compose exec backend sh
 
 # Database container
 docker compose exec postgres sh
@@ -160,6 +165,8 @@ docker run -d \
 
 ### Run Application
 
+**Backend:**
+
 ```bash
 # Install dependencies
 bun install
@@ -174,7 +181,16 @@ bunx prisma migrate deploy
 bun run start:dev
 ```
 
-App runs at: http://localhost:3000
+**Frontend:**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Backend runs at: http://localhost:3000
+Frontend runs at: http://localhost:5173
 
 ## Production Deployment
 
