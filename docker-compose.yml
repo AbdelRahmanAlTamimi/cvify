@@ -7,8 +7,6 @@ services:
       POSTGRES_USER: cvify
       POSTGRES_PASSWORD: cvify_password
       POSTGRES_DB: cvify_db
-    ports:
-      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -16,13 +14,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - cvify-network
 
-  app:
+  backend:
     build: .
-    container_name: cvify-app
+    container_name: cvify-backend
     restart: unless-stopped
-    ports:
-      - '3000:3000'
     environment:
       DATABASE_URL: postgresql://cvify:cvify_password@postgres:5432/cvify_db
       NODE_ENV: production
@@ -30,10 +28,26 @@ services:
       - .env
     volumes:
       - ./uploads:/app/uploads
-      - ./public:/app/public
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - cvify-network
+
+  frontend:
+    build: ./frontend
+    container_name: cvify-frontend
+    restart: unless-stopped
+    ports:
+      - '3000:80'
+    depends_on:
+      - backend
+    networks:
+      - cvify-network
 
 volumes:
   postgres_data:
+
+networks:
+  cvify-network:
+    driver: bridge

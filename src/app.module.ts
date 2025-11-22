@@ -1,6 +1,5 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CvsModule } from './cvs/cvs.module';
 import { GroqModule } from './groq/groq.module';
@@ -16,7 +15,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     GroqModule,
     CvsModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {

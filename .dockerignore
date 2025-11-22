@@ -17,3 +17,4 @@ uploads/*
 Dockerfile
 docker-compose.yml
 .dockerignore
+frontend

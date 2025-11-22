@@ -3,7 +3,7 @@
 ## Base URL
 
 ```
-http://localhost:3000
+http://localhost:3000/api
 ```
 
 ## Profiles Endpoints
@@ -11,7 +11,7 @@ http://localhost:3000
 ### Create Profile
 
 ```http
-POST /profiles
+POST /api/profiles
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 ### Get All Profiles
 
 ```http
-GET /profiles
+GET /api/profiles
 ```
 
 **Response:** Array of profiles (summary only)
@@ -48,7 +48,7 @@ GET /profiles
 ### Get Profile by ID
 
 ```http
-GET /profiles/:id
+GET /api/profiles/:id
 ```
 
 **Response:** Complete profile object with all data
@@ -58,7 +58,7 @@ GET /profiles/:id
 ### Update Profile
 
 ```http
-PATCH /profiles/:id
+PATCH /api/profiles/:id
 Content-Type: application/json
 
 {
@@ -101,7 +101,7 @@ Content-Type: application/json
 ### Delete Profile
 
 ```http
-DELETE /profiles/:id
+DELETE /api/profiles/:id
 ```
 
 **Response:** Deleted profile object
@@ -115,7 +115,7 @@ DELETE /profiles/:id
 ### Generate CV
 
 ```http
-POST /cvs/generate
+POST /api/cvs/generate
 Content-Type: application/json
 
 {
@@ -136,7 +136,7 @@ Content-Type: application/json
 ### Get All CVs
 
 ```http
-GET /cvs
+GET /api/cvs
 ```
 
 **Response:** Array of all CVs with profile info
@@ -164,7 +164,7 @@ GET /cvs
 ### Get CV by ID
 
 ```http
-GET /cvs/:id
+GET /api/cvs/:id
 ```
 
 **Response:** Single CV object with profile info
@@ -174,7 +174,7 @@ GET /cvs/:id
 ### Get CVs by Profile
 
 ```http
-GET /cvs/profile/:profileId
+GET /api/cvs/profile/:profileId
 ```
 
 **Response:** Array of CVs for specific profile
@@ -184,7 +184,7 @@ GET /cvs/profile/:profileId
 ### Download CV
 
 ```http
-GET /cvs/:id/download
+GET /api/cvs/:id/download
 ```
 
 **Response:** PDF file
@@ -194,7 +194,7 @@ GET /cvs/:id/download
 ### Regenerate CV
 
 ```http
-GET /cvs/:id/regenerate
+GET /api/cvs/:id/regenerate
 ```
 
 **Response:** Regenerated PDF from stored data (no AI call)
@@ -204,7 +204,7 @@ GET /cvs/:id/regenerate
 ### Update CV Data
 
 ```http
-PATCH /cvs/:id/cv-data
+PATCH /api/cvs/:id/cv-data
 Content-Type: application/json
 
 {
@@ -221,7 +221,7 @@ Content-Type: application/json
 ### Delete CV
 
 ```http
-DELETE /cvs/:id
+DELETE /api/cvs/:id
 ```
 
 **Response:** Deleted CV object
